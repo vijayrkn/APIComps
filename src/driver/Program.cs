@@ -3,18 +3,18 @@ using System.Diagnostics;
 
 public class Program
 {
-    private const int NumberofServers = 3;
-    private const int MaxNumber = 90;
-    private const string BaseURL = "http://localhost:5000/compute";
-    private const string ResponseHeader = "stack";
-    private static HttpClient _client = new HttpClient();
+    private const int NumberofServers = 4;
+    private const int MaxNumber = 50;
+    private const string BaseURL = "http://localhost:5000";
+    private const string StackHeader = "stack";
+    private static HttpClient _client = new();
+    private static Stopwatch _timer = new();
 
-    public async static Task Main()
+    public static async Task Main()
     {
         IDictionary<string, int> wins = new Dictionary<string, int>();
         int counter = 0;
 
-        var timer = new Stopwatch();
         while (counter < MaxNumber)
         {
             long winningTime = int.MaxValue;
@@ -22,23 +22,14 @@ public class Program
 
             for (int i = 0; i < NumberofServers; i++)
             {
-                timer.Restart();
-                var response = await _client.GetAsync(@$"{BaseURL}?n={counter}");
-                timer.Stop();
-                var responseTime = timer.ElapsedTicks;
-
-                if (!response.IsSuccessStatusCode && !response.Headers.TryGetValues(ResponseHeader, out var _))
+                (HttpResponseMessage response, long responseTime) = await ProcessComputeRequest(counter);
+                if (!response.IsSuccessStatusCode && !response.Headers.TryGetValues(StackHeader, out var responseStackValue)
+                    && responseStackValue?.FirstOrDefault() == null)
                 {
                     return;
                 }
 
-                // Get the stack header from response.
-                string? currentStack = response.Headers.GetValues(ResponseHeader).FirstOrDefault();
-                if(currentStack == null)
-                {
-                    return;
-                }
-
+                string? currentStack = response.Headers.GetValues(StackHeader).First();
                 if (responseTime < winningTime)
                 {
                     winningTime = responseTime;
@@ -54,10 +45,20 @@ public class Program
             counter++;
         }
 
-        Console.WriteLine("Final Result:");
+        Console.WriteLine("## Result:");
         foreach(var win in wins)
         {
             Console.WriteLine($"{win.Key} : {win.Value}");
         }
+    }
+
+    private static async Task<(HttpResponseMessage, long)> ProcessComputeRequest(int counter)
+    {
+        _timer.Restart();
+        var response = await _client.GetAsync(@$"{BaseURL}/compute?n={counter}");
+        _timer.Stop();
+        var responseTime = _timer.ElapsedTicks;
+
+        return (response, responseTime);
     }
 }
