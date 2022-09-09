@@ -19,6 +19,7 @@ dotnet run --project $SOURCE/aspnetcore/aspnetcore.csproj &
 P1=$!
 
 # Node
+npm --prefix $SOURCE/expressjs install $SOURCE/expressjs
 node $SOURCE/expressjs/app.js &
 P2=$!
 
