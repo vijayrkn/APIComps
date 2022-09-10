@@ -27,7 +27,8 @@
 ![image](https://user-images.githubusercontent.com/3981619/189455610-4dfad6b5-1e6d-477e-a584-d1161862276f.png)
 
 ### Interpretation of the result: 
-Out of the 50 requests sent to each of the 4 stacks: 
+
+- Out of the 50 requests sent to each of the 4 stacks: 
     - node processed 13 requests faster than others
     - dotnet processed 19 requests faster than others
     - go processed 17 requests faster than others & 
