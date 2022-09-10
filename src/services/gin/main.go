@@ -2,14 +2,12 @@ package main
 import (
     "net/http"
 	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
     router := gin.Default()
     router.GET("/compute", computeFib)
-
     router.Run("localhost:5004")
 }
 

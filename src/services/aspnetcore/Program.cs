@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/compute", (ulong n, HttpResponse response) =>
+app.MapGet("/compute", (int n, HttpResponse response) =>
 {
     ulong a = 0, b = 1, c = 0, result = 0;
     if (n == 0)
@@ -10,7 +10,7 @@ app.MapGet("/compute", (ulong n, HttpResponse response) =>
     }
     else
     {
-        for (ulong i = 2; i <= n; i++)
+        for (int i = 2; i <= n; i++)
         {
             c = a + b;
             a = b;
