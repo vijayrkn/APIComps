@@ -3,12 +3,12 @@
 ## Structure of the project: 
 
 - src/services
-    - aspnetcore (running on port 5001)
-    - expressjs (running on port 5002)
-    - flask (running on port 5003)
-    - gin (running on port 5004)
+    - aspnetcore (dotnet running on port 5001)
+    - expressjs (node running on port 5002)
+    - flask (python running on port 5003)
+    - gin (go running on port 5004)
 - src/proxy 
-    - YARP (running on port 5000 that redirects traffic to 5001, 5002 & 5003 based on round robin policy)
+    - YARP (running on port 5000 that redirects traffic to 5001, 5002, 5003 & 5004 based on round robin policy)
 - src/driver
     - driver program that send http request to port 5000 to test the time taken to run the API for each stack.
     
@@ -26,3 +26,9 @@
 ## Sample Result
 ![image](https://user-images.githubusercontent.com/3981619/189455610-4dfad6b5-1e6d-477e-a584-d1161862276f.png)
 
+### Interpretation of the result: 
+Out of the 50 requests sent to each of the 4 stacks: 
+    - node processed 13 requests faster than others
+    - dotnet processed 19 requests faster than others
+    - go processed 17 requests faster than others & 
+    - python processed 1 request faster than others.
