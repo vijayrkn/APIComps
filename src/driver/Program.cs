@@ -46,7 +46,7 @@ public class Program
         }
 
         Console.WriteLine("## Result:");
-        foreach(var win in wins)
+        foreach (var win in wins)
         {
             Console.WriteLine($"{win.Key} : {win.Value}");
         }
